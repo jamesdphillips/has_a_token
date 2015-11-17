@@ -2,7 +2,8 @@ module HasAToken
 
   # Configurable generator for build unique tokens
   class Generator
-    include Contracts
+    include Contracts::Core
+    include Contracts::Builtin
 
     UNAMBIGUOUS_CHARSET = %w( 2 3 4 6 7 9 A C D E F G H J K M N P Q R T V W X Y Z ).freeze
 
