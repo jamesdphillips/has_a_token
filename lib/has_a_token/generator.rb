@@ -10,6 +10,7 @@ module HasAToken
     # @option [Symbol] :charset charset to token
     #    :unambiguous token will only contain unambiguous letters and numbers
     #    :urlsafe_base64 will return base64 token with '/' & '+' replaced w/ '-' & '_'
+    #    :alphabetical will contain only A-Z characters
     # @option [Fixnum] :length of the resulting token; defaults to 24 (or 8 for unambiguous sets)
     def initialize(charset: :urlsafe_base64, length: nil)
       @length = length || (charset == :unambiguous ? 5 : 24)
@@ -23,7 +24,9 @@ module HasAToken
     def generate
       case @charset
       when :unambiguous
-        generate_unambiguous_token
+        generate_charset_token(UNAMBIGUOUS_CHARSET)
+      when :alphabetical
+        generate_charset_token(("A".."Z").to_a)
       else
         generate_secure_token
       end
@@ -31,17 +34,17 @@ module HasAToken
 
     private
 
-    Contract None => String
-    def generate_unambiguous_token
+    Contract Array => String
+    def generate_charset_token(charset)
       # Fetch a random set of bytes
-      randset = SecureRandom.random_number(UNAMBIGUOUS_CHARSET.size**@length)
+      randset = SecureRandom.random_number(charset.size**@length)
 
       # Assign to ambiguous charset
       @length
         .times
         .map do |i|
-          UNAMBIGUOUS_CHARSET.to_a[
-            (randset / UNAMBIGUOUS_CHARSET.size**i) % UNAMBIGUOUS_CHARSET.size
+          charset.to_a[
+            (randset / charset.size**i) % charset.size
           ]
         end.join
     end

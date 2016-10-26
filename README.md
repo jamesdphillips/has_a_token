@@ -15,6 +15,7 @@ And then execute:
     $ bundle
 
 ## Usage
+Charsets include: `:unambiguous`, `:alphabetical`, and the default `urlsafe_base64`
 
 Basic usage:
 

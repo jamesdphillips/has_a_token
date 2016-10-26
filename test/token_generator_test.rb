@@ -8,9 +8,9 @@ class GeneratorTests < Minitest::Test
   end
 
   def test_unambiguous_charset
-    SecureRandom.stub :random_number, 456_975 do # ZZZZ
+    SecureRandom.stub :random_number, 456_975_123 do # CQYZ
       assert_instance_of String, HasAToken::Generator.new(charset: :unambiguous, length: 1).generate
-      assert_equal "ZZZZ", HasAToken::Generator.new(charset: :unambiguous, length: 4).generate
+      assert_equal "CQYZ", HasAToken::Generator.new(charset: :unambiguous, length: 4).generate
     end
   end
 
@@ -27,6 +27,18 @@ class GeneratorTests < Minitest::Test
     end
     SecureRandom.stub :hex, "1234" do
       assert_equal "1234", HasAToken::Generator.new(charset: :hex).generate
+    end
+  end
+
+  def test_alphabetical_length
+    assert HasAToken::Generator.new(charset: :alphabetical, length: 8).generate.length == 8
+    assert HasAToken::Generator.new(charset: :alphabetical, length: 10).generate.length == 10
+  end
+
+  def test_alphabetical_charset
+    SecureRandom.stub :random_number, 456_975_123 do # HSYZ
+      assert_instance_of String, HasAToken::Generator.new(charset: :alphabetical, length: 1).generate
+      assert_equal "HSYZ", HasAToken::Generator.new(charset: :alphabetical, length: 4).generate
     end
   end
 end
