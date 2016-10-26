@@ -1,4 +1,4 @@
-require "test_helper"
+require_relative "./test_helper.rb"
 
 # Test Generator class
 class GeneratorTests < Minitest::Test
