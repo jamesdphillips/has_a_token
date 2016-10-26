@@ -49,3 +49,7 @@ user.reset_password_reset_token! # creates a new token and persists the changes
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+### Tests
+
+You can run the tests using the `rake test` command.
